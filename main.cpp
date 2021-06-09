@@ -9,7 +9,7 @@
 
 void ReadFile(int* quantity_of_seats,  QVector<Animal>* left_beach_objects);
 bool isAbleToMove(QVector<Animal>& animals);
-QVector<NodeGraph> makeNewNode(QVector<Animal> left_beach_objects, QVector<Animal> right_beach_objects,  QVector<QVector<Animal>> Stack_of_Actions,  bool toLeftCoast, QVector<State> States);
+QVector<NodeGraph> makeNewNode(QVector<Animal> left_beach_objects, QVector<Animal> right_beach_objects,  QVector<QVector<Animal>> Stack_of_Actions,  bool toLeftCoast, QVector<State> States, int &quantity_of_animals, int &quantity_of_seats, bool &finish);
 
 void MakeNewCombination(int offset, int k, QVector<Animal> combination, QVector<Animal> &currentCoast, QVector<QVector<Animal>> &Combinations)
 {
@@ -27,10 +27,6 @@ void MakeNewCombination(int offset, int k, QVector<Animal> combination, QVector<
   }
 }
 
-int quantity_of_animals;
-int quantity_of_seats;
-bool finish = 0;
-
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
@@ -41,6 +37,9 @@ int main(int argc, char *argv[])
     QVector<State> States;
     std::queue<NodeGraph> Graph;
     std::set<QVector<Animal>> unique;
+    int quantity_of_animals;
+    int quantity_of_seats;
+    bool finish = 0;
 
     //ReadFile(&quantity_of_seats, &left_coast_animals);
     quantity_of_seats = 4;
@@ -77,10 +76,6 @@ int main(int argc, char *argv[])
             }
         }
     }
-//    for(auto i = Combinations.begin(); i != Combinations.end(); ++i)
-//    {
-//        unique.insert(*i);
-//    }
 
     QVector<QVector<NodeGraph>> FirstNodes;
     for (auto combination : Combinations)
@@ -110,7 +105,7 @@ int main(int argc, char *argv[])
             Stack_of_Actions.append(newCombination);
             State state(newLeftCoast, newRightCoast, newCombination);
             States.append(state);
-            FirstNodes.append(makeNewNode(newLeftCoast, newRightCoast, Stack_of_Actions, 0, States));
+            FirstNodes.append(makeNewNode(newLeftCoast, newRightCoast, Stack_of_Actions, 0, States, quantity_of_animals, quantity_of_seats, finish));
             Stack_of_Actions.pop_back();
             States.pop_back();
         }
@@ -127,7 +122,7 @@ int main(int argc, char *argv[])
     do
     {
         QVector<NodeGraph> tmp;
-        tmp = makeNewNode(Graph.front().left_beach_objects, Graph.front().right_beach_objects, Graph.front().Stack_of_Actions, Graph.front().toLeftCoast, Graph.front().States);
+        tmp = makeNewNode(Graph.front().left_beach_objects, Graph.front().right_beach_objects, Graph.front().Stack_of_Actions, Graph.front().toLeftCoast, Graph.front().States, quantity_of_animals, quantity_of_seats, finish);
         for(int i = 0; i < tmp.size(); i++)
         {
             Graph.push(tmp[i]);
@@ -218,7 +213,7 @@ bool isAbleToMove(QVector<Animal>& animals)
     return true;
 }
 
-QVector<NodeGraph> makeNewNode(QVector<Animal> left_beach_objects, QVector<Animal> right_beach_objects,  QVector<QVector<Animal>> Stack_of_Actions,  bool toLeftCoast, QVector<State> States)
+QVector<NodeGraph> makeNewNode(QVector<Animal> left_beach_objects, QVector<Animal> right_beach_objects,  QVector<QVector<Animal>> Stack_of_Actions,  bool toLeftCoast, QVector<State> States, int &quantity_of_animals, int &quantity_of_seats, bool &finish)
 {
     QVector<NodeGraph> VectorNodes;
     if (toLeftCoast)
