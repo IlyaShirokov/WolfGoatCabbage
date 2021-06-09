@@ -41,18 +41,7 @@ int main(int argc, char *argv[])
     int quantity_of_seats;
     bool finish = 0;
 
-    //ReadFile(&quantity_of_seats, &left_coast_animals);
-    quantity_of_seats = 4;
-    left_coast_animals.append(Animal("Волк", {"Коза", "Лошадь"}));
-    left_coast_animals.append(Animal("Коза", {"Капуста", "Волк"}));
-    left_coast_animals.append(Animal("Коза", {"Капуста", "Волк"}));
-    left_coast_animals.append(Animal("Капуста", {"Коза"}));
-    left_coast_animals.append(Animal("Капуста", {"Коза"}));
-    left_coast_animals.append(Animal("Капуста", {"Коза"}));
-    left_coast_animals.append(Animal("Капуста", {"Коза"}));
-    left_coast_animals.append(Animal("Капуста", {"Коза"}));
-    left_coast_animals.append(Animal("Лошадь", {"Волк"}));
-    left_coast_animals.append(Animal("Лошадь", {"Волк"}));
+    ReadFile(&quantity_of_seats, &left_coast_animals);
 
     quantity_of_animals = left_coast_animals.size();
 
